@@ -2,7 +2,6 @@ const { Client, GatewayIntentBits, ApplicationCommandOptionType } = require('dis
 const { REST } = require('discord.js');
 const { Routes } = require('discord-api-types/v9');
 
-const keep_alive = require ("./keep_alive.js");
 require('dotenv').config()
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
