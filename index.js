@@ -26,17 +26,30 @@ client.on('ready', async () => {
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options, member } = interaction;
+    const { commandName, options, member, channel } = interaction;
+    const deliveryChannelId = process.env.COMANDO_ID;
+    const responseChannelId = process.env.ENTREGA_ID;
+
+    if (channel.id !== deliveryChannelId)  {
+            return interaction.reply({ content: 'Você não tem permissão para usar este comando.', ephemeral: true });
+        }
 
     if (commandName === 'entrega') {
-      const hasPermission = member.roles.cache.some(role => allowedRoles.includes(role.id));
-if (!hasPermission) {
-    return interaction.reply({content: 'Você não tem permissão para usar este comando.', ephemeral: true });
-}
+        const hasPermission = member.roles.cache.some(role => allowedRoles.includes(role.id));
+        if (!hasPermission) {
+            return interaction.reply({ content: 'Você não tem permissão para usar este comando.', ephemeral: true });
+        }
         const user = options.getUser('usuario');
-        await interaction.reply(`${user}, sua skin foi enviada com sucesso! Verifique sua caixa de presente no jogo.`);
+        const responseChannel = interaction.guild.channels.cache.get(responseChannelId);
+        if (responseChannel) {
+            await responseChannel.send(`${user}, sua skin foi enviada com sucesso! Verifique sua caixa de presente no jogo.`);
+        } else {
+            console.error('Canal de resposta não encontrado.');
+        }
+        await interaction.reply('Mensagem de entrega enviada com sucesso!');
     }
 });
+
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
