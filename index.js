@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-let allowedRoles = ['1222649094242304000', 'ROLE_ID_2',];
+let allowedRoles = ['1102772131944747088', '1102772128098566174', '1170534085769302027', '1096423219793231995'];
 
 client.on('ready', async () => {
     try {
